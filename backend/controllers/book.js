@@ -91,3 +91,18 @@ exports.getAllBooks = (req, res, next) => {
       res.status(400).json({ error });
     });
 };
+
+exports.bestRating = async (req, res, next) => {
+  try {
+    const topBooks = await Book.find({ 'ratings.0': { $exists: true } })
+      .sort({ averageRating: -1 })
+      .limit(3)
+      .select('title author imageUrl year genre averageRating');
+
+    res.status(200).json(topBooks);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: 'Oops, impossible de récupérer les meilleurs livres.' });
+  }
+};
