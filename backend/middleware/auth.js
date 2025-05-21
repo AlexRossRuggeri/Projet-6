@@ -11,8 +11,8 @@ module.exports = (req, res, next) => {
       algorithms: ['HS256'],
     });
     req.auth = { userId: decodedToken.userId };
+    next();
   } catch (error) {
     res.status(401).json({ error: 'Authentification invalide' });
   }
-  next();
 };
