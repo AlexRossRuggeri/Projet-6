@@ -1,13 +1,13 @@
 const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
+const { randomUUID } = require('crypto');
 
 module.exports = (req, res, next) => {
   if (!req.file) return next();
 
   const { destination, filename } = req.file;
-  const basename = path.parse(filename).name;
-  const newFilename = `${basename}.webp`;
+  const newFilename = `${randomUUID()}.webp`;
   const inputPath = path.join(destination, filename);
   const outputPath = path.join(destination, newFilename);
 
