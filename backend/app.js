@@ -1,4 +1,5 @@
 const express = require('express');
+const helmet = require('helmet');
 const connectDB = require('./db');
 const path = require('path');
 
@@ -6,6 +7,12 @@ const bookRoutes = require('./routes/book');
 const userRoutes = require('./routes/user');
 
 const app = express();
+
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false
+  })
+);
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
