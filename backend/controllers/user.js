@@ -14,9 +14,13 @@ exports.signup = (req, res, next) => {
       user
         .save()
         .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-        .catch((error) => res.status(400).json(error));
+        .catch((error) => {
+          console.error('Erreur lors de la création de l\'utilisateur',error);
+          res.status(400).json({ message: 'Impossible de créer l\'utilisateur.' });});
     })
-    .catch((error) => res.status(500).json({ error }));
+    .catch((error) => {
+      console.error('Erreur lors du hachage du mot de passe:', error);
+      res.status(500).json({ message: 'Erreur serveur.' });});
 };
 
 exports.login = (req, res, next) => {
@@ -42,10 +46,11 @@ exports.login = (req, res, next) => {
               }),
             });
           })
-          .catch((error) => res.status(500).json({ error }));
+          .catch((error) => {
+            res.status(500).json({ message: 'Erreur Serveur.' });});
       }
     })
     .catch((error) => {
-      res.status(500).json({ error });
+      res.status(500).json({ message: 'Erreur Serveur.' });
     });
 };

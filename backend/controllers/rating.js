@@ -31,7 +31,8 @@ exports.addRating = async (req, res, next) => {
     try {
       attachRating(book, userId, grade);
     } catch (err) {
-      return res.status(403).json({ error: err.message });
+      console.error('Erreur lors de l\'ajout de la note:', err);
+      return res.status(403).json({ error: 'Déjà noté' });
     }
 
     book.averageRating = calculateAverage(book.ratings);
@@ -39,6 +40,7 @@ exports.addRating = async (req, res, next) => {
 
     return res.status(201).json(book);
   } catch (error) {
+    console.error('Erreur lors de l\'ajout de la note:', error);
     return res.status(500).json({ error: 'Erreur serveur' });
   }
 };

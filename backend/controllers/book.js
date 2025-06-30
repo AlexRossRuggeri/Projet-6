@@ -19,7 +19,9 @@ exports.createBook = (req, res, next) => {
       res.status(201).json({ message: 'Livre enregistré!' });
     })
     .catch((error) => {
-      res.status(400).json({ error });
+      console.error('Erreur lors de la création du livre:', error);
+      res.status(400).json({ message: 'Echec de l\'enregistrement du livre'
+       });
     });
 };
 
@@ -56,9 +58,15 @@ exports.modifyBook = (req, res, next) => {
         { ...bookObject, _id: req.params.id },
       )
         .then(() => res.status(200).json({ message: 'Livre modifié' }))
-        .catch((error) => res.status(401).json({ error }));
+        .catch((error) => {
+          console.error('Erreur lors de la modification du livre:', error);
+          res.status(401).json({ message: 'Echec de la modification du livre' });
+        });
     })
-    .catch((error) => res.status(400).json({ error }));
+    .catch((error) => {
+      console.error('Erreur lors de la recherche du livre:', error);
+     res.status(400).json({ message: 'Livre non trouvé' });
+    });
 };
 
 exports.deleteBook = (req, res, next) => {
@@ -74,13 +82,15 @@ exports.deleteBook = (req, res, next) => {
               res.status(200).json({ message: 'Livre supprimé!' });
             })
             .catch((error) => {
-              res.status(401).json({ error });
+              console.error('Erreur lors de la suppression du livre:', error);
+              res.status(500).json({ message: 'Echec de la suppression du livre' });
             });
         });
       }
     })
     .catch((error) => {
-      res.status(500).json({ error });
+      console.error('Erreur lors de la recherche du livre:', error);
+      res.status(400).json({ message: 'Livre non trouvé ou requête invalide' });
     });
 };
 
@@ -90,7 +100,8 @@ exports.getOneBook = (req, res, next) => {
       res.status(200).json(book);
     })
     .catch((error) => {
-      res.status(404).json({ error });
+      console.error('Erreur lors de la récupération du livre:', error);
+      res.status(404).json({ message: 'Livre non trouvé' });
     });
 };
 
@@ -100,7 +111,8 @@ exports.getAllBooks = (req, res, next) => {
       res.status(200).json(books);
     })
     .catch((error) => {
-      res.status(400).json({ error });
+      console.error('Erreur lors de la récupération des livres:', error);
+      res.status(400).json({ message: 'Echec de la récupération des livres' });
     });
 };
 
