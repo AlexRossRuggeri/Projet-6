@@ -22,3 +22,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Ignore all images in the images/ directory
+/images/
+
+# macOS Finder metadata
+.DS_Store
